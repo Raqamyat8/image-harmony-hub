@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PropertiesRouteImport } from './routes/properties'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as AboutRouteImport } from './routes/about'
@@ -21,6 +22,11 @@ import { Route as AgentsIdRouteImport } from './routes/agents.$id'
 const PropertiesRoute = PropertiesRouteImport.update({
   id: '/properties',
   path: '/properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/agents': typeof AgentsRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/agents/$id': typeof AgentsIdRoute
   '/book/$id': typeof BookIdRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/agents': typeof AgentsRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/agents/$id': typeof AgentsIdRoute
   '/book/$id': typeof BookIdRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/agents': typeof AgentsRouteWithChildren
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
   '/properties': typeof PropertiesRouteWithChildren
   '/agents/$id': typeof AgentsIdRoute
   '/book/$id': typeof BookIdRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/agents'
     | '/auth'
+    | '/dashboard'
     | '/properties'
     | '/agents/$id'
     | '/book/$id'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/agents'
     | '/auth'
+    | '/dashboard'
     | '/properties'
     | '/agents/$id'
     | '/book/$id'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/agents'
     | '/auth'
+    | '/dashboard'
     | '/properties'
     | '/agents/$id'
     | '/book/$id'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AgentsRoute: typeof AgentsRouteWithChildren
   AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRoute
   PropertiesRoute: typeof PropertiesRouteWithChildren
   BookIdRoute: typeof BookIdRoute
 }
@@ -139,6 +152,13 @@ declare module '@tanstack/react-router' {
       path: '/properties'
       fullPath: '/properties'
       preLoaderRoute: typeof PropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AgentsRoute: AgentsRouteWithChildren,
   AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRoute,
   PropertiesRoute: PropertiesRouteWithChildren,
   BookIdRoute: BookIdRoute,
 }
