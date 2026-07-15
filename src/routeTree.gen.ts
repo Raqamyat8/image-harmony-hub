@@ -9,38 +9,159 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PropertiesRouteImport } from './routes/properties'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AgentsRouteImport } from './routes/agents'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
+import { Route as BookIdRouteImport } from './routes/book.$id'
+import { Route as AgentsIdRouteImport } from './routes/agents.$id'
 
+const PropertiesRoute = PropertiesRouteImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PropertiesIdRoute = PropertiesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PropertiesRoute,
+} as any)
+const BookIdRoute = BookIdRouteImport.update({
+  id: '/book/$id',
+  path: '/book/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsIdRoute = AgentsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AgentsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agents': typeof AgentsRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/properties': typeof PropertiesRouteWithChildren
+  '/agents/$id': typeof AgentsIdRoute
+  '/book/$id': typeof BookIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agents': typeof AgentsRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/properties': typeof PropertiesRouteWithChildren
+  '/agents/$id': typeof AgentsIdRoute
+  '/book/$id': typeof BookIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agents': typeof AgentsRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/properties': typeof PropertiesRouteWithChildren
+  '/agents/$id': typeof AgentsIdRoute
+  '/book/$id': typeof BookIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/agents'
+    | '/auth'
+    | '/properties'
+    | '/agents/$id'
+    | '/book/$id'
+    | '/properties/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/agents'
+    | '/auth'
+    | '/properties'
+    | '/agents/$id'
+    | '/book/$id'
+    | '/properties/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/agents'
+    | '/auth'
+    | '/properties'
+    | '/agents/$id'
+    | '/book/$id'
+    | '/properties/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AgentsRoute: typeof AgentsRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  PropertiesRoute: typeof PropertiesRouteWithChildren
+  BookIdRoute: typeof BookIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/properties': {
+      id: '/properties'
+      path: '/properties'
+      fullPath: '/properties'
+      preLoaderRoute: typeof PropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +169,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/properties/$id': {
+      id: '/properties/$id'
+      path: '/$id'
+      fullPath: '/properties/$id'
+      preLoaderRoute: typeof PropertiesIdRouteImport
+      parentRoute: typeof PropertiesRoute
+    }
+    '/book/$id': {
+      id: '/book/$id'
+      path: '/book/$id'
+      fullPath: '/book/$id'
+      preLoaderRoute: typeof BookIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/$id': {
+      id: '/agents/$id'
+      path: '/$id'
+      fullPath: '/agents/$id'
+      preLoaderRoute: typeof AgentsIdRouteImport
+      parentRoute: typeof AgentsRoute
+    }
   }
 }
 
+interface AgentsRouteChildren {
+  AgentsIdRoute: typeof AgentsIdRoute
+}
+
+const AgentsRouteChildren: AgentsRouteChildren = {
+  AgentsIdRoute: AgentsIdRoute,
+}
+
+const AgentsRouteWithChildren =
+  AgentsRoute._addFileChildren(AgentsRouteChildren)
+
+interface PropertiesRouteChildren {
+  PropertiesIdRoute: typeof PropertiesIdRoute
+}
+
+const PropertiesRouteChildren: PropertiesRouteChildren = {
+  PropertiesIdRoute: PropertiesIdRoute,
+}
+
+const PropertiesRouteWithChildren = PropertiesRoute._addFileChildren(
+  PropertiesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AgentsRoute: AgentsRouteWithChildren,
+  AuthRoute: AuthRoute,
+  PropertiesRoute: PropertiesRouteWithChildren,
+  BookIdRoute: BookIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
