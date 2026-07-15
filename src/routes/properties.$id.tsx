@@ -86,7 +86,7 @@ function PropertyPage() {
           >
             <img src={p.images[0]} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
           </button>
-          {p.images.slice(1, 5).map((src, i) => (
+          {p.images.slice(1, 5).map((src: string, i: number) => (
             <button
               key={i}
               onClick={() => openLightbox(i + 1)}
@@ -167,7 +167,7 @@ function PropertyPage() {
           <div className="mt-16">
             <div className="eyebrow mb-6">Amenities</div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {p.amenities.map((a) => (
+              {p.amenities.map((a: string) => (
                 <div key={a} className="flex items-center gap-3 p-4 rounded-2xl border border-hairline bg-cream">
                   <div className="w-8 h-8 rounded-full grad-gold text-navy-ink flex items-center justify-center shrink-0">
                     <Check size={13} />
